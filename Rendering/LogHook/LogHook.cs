@@ -61,7 +61,7 @@ namespace LogHook
                         }
                     } else
                         // just so we don't continiously read the file without needing to
-                        wh.WaitOne(100);
+                        wh.WaitOne(10);
                 }
             }
 
