@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31919.166
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CombatLogEmulator", "CombatLogEmulator\CombatLogEmulator.csproj", "{00BF84DC-29C4-4856-825F-713BA71F8A59}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Rendering", "Rendering\Rendering.csproj", "{FD1C420A-8CE6-4180-80A2-44F8EE33EC30}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{00BF84DC-29C4-4856-825F-713BA71F8A59}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{00BF84DC-29C4-4856-825F-713BA71F8A59}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{00BF84DC-29C4-4856-825F-713BA71F8A59}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{00BF84DC-29C4-4856-825F-713BA71F8A59}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FD1C420A-8CE6-4180-80A2-44F8EE33EC30}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FD1C420A-8CE6-4180-80A2-44F8EE33EC30}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FD1C420A-8CE6-4180-80A2-44F8EE33EC30}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FD1C420A-8CE6-4180-80A2-44F8EE33EC30}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {881D9395-B5FD-4F63-B876-4E254133C3B3}
+	EndGlobalSection
+EndGlobal
