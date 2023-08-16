@@ -4,13 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LogHook
+namespace Rendering.LogHook
 {
     // will keep track of all entities to render
     public class EntityStateMaster
     {
         private Dictionary<string, Entity> PlayersToRender = new Dictionary<string, Entity>();
         private Dictionary<string, Entity> WorldMarkersToRender = new Dictionary<string, Entity>();
+        private List<Entity> DebuffDropLocationsToRender = new List<Entity>();
 
         public static EntityStateMaster Instance { get { return Nested.instance; } }
 
@@ -53,6 +54,29 @@ namespace LogHook
             };
         }
 
+        public void FlagPlayerAsHighlighted(string id, (int R, int G, int B) highlightColour) {
+            var player = PlayersToRender[id];
+            player.IsHighlighted = true;
+            player.HighlightColour = highlightColour;
+        }
+
+        public void RemovePlayerHighlight(string id) {
+            var player = PlayersToRender[id];
+            player.IsHighlighted = false;
+        }
+
+        public void PlaceIndicatorOnPlayerPosition(string playerId, string idOfIndicator, (int R, int G, int B) highlightColour) {
+            var player = PlayersToRender[playerId];
+            DebuffDropLocationsToRender.Add(new Entity() {
+                Id = idOfIndicator,
+                X = player.X,
+                Y = player.Y,
+                IsOnField = true,
+                IsHighlighted = true,
+                HighlightColour = highlightColour
+            });
+        }
+
         public string DebugEntityPositions() {
             var sb = new StringBuilder();
             foreach (var entity in PlayersToRender) {
@@ -70,6 +94,10 @@ namespace LogHook
             return WorldMarkersToRender.Values.ToList();
         }
 
+        public List<Entity> GetIndicatorsToRender() {
+            return DebuffDropLocationsToRender;
+        }
+
 
     }
 
@@ -78,7 +106,9 @@ namespace LogHook
         public float X { get; set; }
         public float Y { get; set; }
         public string RenderIdentifier { get; set; }
-        public bool IsOnField { get; set; }
+        public bool IsOnField { get; set; } = false;
+        public bool IsHighlighted { get; set; } = false;
+        public (int R, int G, int B) HighlightColour { get; set; }
     }
 
     public class ListEntity

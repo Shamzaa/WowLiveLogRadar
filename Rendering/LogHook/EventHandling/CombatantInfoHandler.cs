@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LogHook.EventHandling
+namespace Rendering.LogHook.EventHandling
 {
     public class CombatantInfoHandler : EventHandler
     {

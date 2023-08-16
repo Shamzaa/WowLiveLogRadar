@@ -29,9 +29,14 @@ namespace Rendering
             var state = LogHook.EntityStateMaster.Instance;
             var playersToRender = state.GetPlayersToRender();
             var worldMarkersToRender = state.GetWorldMarkersToRender();
+            var debuffDropLocationsToRender = state.GetIndicatorsToRender();
+
+            foreach (var indicatorEntity in debuffDropLocationsToRender) {
+                DrawIndicator(indicatorEntity, e);
+            }
 
             foreach (var playerEntity in playersToRender) {
-                DrawPlayer(playerEntity.X, playerEntity.Y, playerEntity.RenderIdentifier, playerEntity.IsOnField, e);
+                DrawPlayer(playerEntity, e);
             }
 
             foreach (var worldMarkerEntity in worldMarkersToRender) {
@@ -39,18 +44,51 @@ namespace Rendering
             }
 
         }
+        private void DrawIndicator(LogHook.Entity indicator, PaintEventArgs e) {
+            if (!indicator.IsOnField) return;
 
-        private void DrawPlayer(float x, float y, string playerClass, bool onField, PaintEventArgs e) {
-            if (!onField) return;
+            float x1 = ((indicator.X + 2520) / (-2440 + 2520)) * 800;
+            float y1 = ((2460 - indicator.Y) / (2460 - 2380)) * 800;
+
+            var graphics = e.Graphics;
+
+            if (indicator.IsHighlighted) {
+
+                var highLightPath = new System.Drawing.Drawing2D.GraphicsPath();
+                highLightPath.AddEllipse(x1 - 10, y1 - 10, 40, 40);
+                var highLightRegion = new Region(highLightPath);
+
+                var h = indicator.HighlightColour;
+                var highlightBrush = new SolidBrush(Color.FromArgb(180, h.R, h.G, h.B));
+                graphics.FillRegion(highlightBrush, highLightRegion);
+            }
+
+        }
+
+        private void DrawPlayer(LogHook.Entity player, PaintEventArgs e) {
+            if (!player.IsOnField) return;
+
+            float x1 = ((player.X + 2520) / (-2440 + 2520))*800;
+            float y1 = ((2460 - player.Y) / (2460 - 2380))*800;
+            
+            var graphics = e.Graphics;
+
+            if(player.IsHighlighted) {
+
+                var highLightPath= new System.Drawing.Drawing2D.GraphicsPath();
+                highLightPath.AddEllipse(x1 - 10, y1 - 10, 40, 40);
+                var highLightRegion = new Region(highLightPath);
+
+                var h = player.HighlightColour;
+                var highlightBrush = new SolidBrush(Color.FromArgb(180, h.R, h.G, h.B));
+                graphics.FillRegion(highlightBrush, highLightRegion);
+            }
 
             var path = new System.Drawing.Drawing2D.GraphicsPath();
-            float x1 = ((x + 2520) / (-2440 + 2520))*800;
-            float y1 = ((2460 - y) / (2460 - 2380))*800;
             path.AddEllipse(x1, y1, 20, 20);
             var region = new Region(path);
-            var graphics = e.Graphics;
             // change colour with class colour
-            var c = GetRGBFromPlayerClass(playerClass);
+            var c = GetRGBFromPlayerClass(player.RenderIdentifier);
             var brush = new SolidBrush(Color.FromArgb(255, c.R, c.G, c.B));
             graphics.FillRegion(brush, region);
 

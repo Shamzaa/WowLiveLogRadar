@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LogHook.EventHandling
+namespace Rendering.LogHook.EventHandling
 {
     public class CombatLogEventHandler
     {
@@ -17,13 +17,17 @@ namespace LogHook.EventHandling
             },
             {
                 "SPELL_CAST_SUCCESS", new SpellCastSuccessHandler()
+            },
+            {
+                "SPELL_AURA_APPLIED", new SpellAuraAppliedHandler()
+            },
+            {
+                "SPELL_AURA_REMOVED", new SpellAuraRemovedHandler()
             }
             
                         // todo: features I wanna make for fun
                         // more events for positions
                         // current player highlight
-                        // indicator debuffs
-                        // drop debuff location
                         // attach line between player and a marker during debuff
                         // laser from boss when he does breath
                         // arrow showing to go to a marker with debuff

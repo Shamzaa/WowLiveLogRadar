@@ -1,4 +1,4 @@
-﻿using LogHook.EventHandling;
+﻿using Rendering.LogHook.EventHandling;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -8,7 +8,7 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace LogHook
+namespace Rendering.LogHook
 {
     public static class LogHook
     {
