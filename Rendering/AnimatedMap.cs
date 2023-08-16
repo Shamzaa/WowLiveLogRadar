@@ -46,7 +46,7 @@ namespace Rendering
             var path = new System.Drawing.Drawing2D.GraphicsPath();
             float x1 = ((x + 2520) / (-2440 + 2520))*800;
             float y1 = ((2460 - y) / (2460 - 2380))*800;
-            path.AddEllipse(x1, y1, 10, 10);
+            path.AddEllipse(x1, y1, 20, 20);
             var region = new Region(path);
             var graphics = e.Graphics;
             // change colour with class colour
@@ -93,14 +93,39 @@ namespace Rendering
             if (!onField) return;
 
             // todo: change with icons
-            var path = new System.Drawing.Drawing2D.GraphicsPath();
+            //var path = new System.Drawing.Drawing2D.GraphicsPath();
             float x1 = ((x + 2520) / (-2440 + 2520)) * 800;
             float y1 = ((2460 - y) / (2460 - 2380)) * 800;
-            path.AddEllipse(x1, y1, 10, 10);
-            var region = new Region(path);
+            //path.AddEllipse(x1, y1, 10, 10);
+            //var region = new Region(path);
             var graphics = e.Graphics;
-            graphics.FillRegion(Brushes.White, region);
+            var image = GetImageFromWorldMarkerName(markerIdentifier);
+            graphics.DrawImage(image, x1, y1, 30, 30);
+            //graphics.FillRegion(Brushes.White, region);
 
+        }
+
+        private Image GetImageFromWorldMarkerName(string worldMarkerName) {
+            switch (worldMarkerName) {
+                case "blue":
+                    return Properties.Resources.blue;
+                case "green":
+                    return Properties.Resources.green;
+                case "purple":
+                    return Properties.Resources.purple;
+                case "red":
+                    return Properties.Resources.red;
+                case "yellow":
+                    return Properties.Resources.yellow;
+                case "orange":
+                    return Properties.Resources.orange;
+                case "silver":
+                    return Properties.Resources.silver;
+                case "skull":
+                    return Properties.Resources.skull;
+                default:
+                    throw new Exception($"unknown marker name {worldMarkerName}");
+            }
         }
 
         private void StartHook() {

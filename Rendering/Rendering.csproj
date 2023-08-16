@@ -87,5 +87,30 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <None Include="Graphics\WorldMarkers\blue.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Graphics\WorldMarkers\green.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Graphics\WorldMarkers\orange.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Graphics\WorldMarkers\purple.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Graphics\WorldMarkers\red.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Graphics\WorldMarkers\silver.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Graphics\WorldMarkers\skull.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Graphics\WorldMarkers\yellow.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

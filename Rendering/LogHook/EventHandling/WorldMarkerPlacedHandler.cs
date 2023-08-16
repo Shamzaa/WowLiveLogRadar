@@ -25,8 +25,33 @@ namespace LogHook.EventHandling
 
             float x = -float.Parse(args[4], CultureInfo.InvariantCulture);
             float y = float.Parse(args[3], CultureInfo.InvariantCulture);
+            var markerId = int.Parse(args[2], CultureInfo.InvariantCulture);
 
-            EntityStateMaster.Instance.PlaceWorldMarker(args[2], args[2], x, y);
+            EntityStateMaster.Instance.PlaceWorldMarker(args[2], GetMarkerName(markerId), x, y);
+        }
+
+
+        private string GetMarkerName(int id) {
+            switch (id) {
+                case 0:
+                    return "blue";
+                case 1:
+                    return "green";
+                case 2:
+                    return "purple";
+                case 3:
+                    return "red";
+                case 4:
+                    return "yellow";
+                case 5:
+                    return "orange";
+                case 6:
+                    return "silver";
+                case 7:
+                    return "skull";
+                default:
+                    throw new Exception($"unknown markerid {id}");
+            }
         }
     }
 }

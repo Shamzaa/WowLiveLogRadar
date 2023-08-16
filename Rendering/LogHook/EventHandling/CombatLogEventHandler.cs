@@ -21,7 +21,6 @@ namespace LogHook.EventHandling
             
                         // todo: features I wanna make for fun
                         // more events for positions
-                        // class colours
                         // current player highlight
                         // indicator debuffs
                         // drop debuff location
