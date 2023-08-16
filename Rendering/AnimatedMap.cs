@@ -27,24 +27,79 @@ namespace Rendering
         }
         private void DrawEvent(object sender, PaintEventArgs e) {
             var state = LogHook.EntityStateMaster.Instance;
-            var entitiesToRender = state.GetEntitiesToRender();
+            var playersToRender = state.GetPlayersToRender();
+            var worldMarkersToRender = state.GetWorldMarkersToRender();
 
-
-            foreach (var entity in entitiesToRender) {
-                DrawPlayer(entity.X, entity.Y, entity.IsOnField, e);
+            foreach (var playerEntity in playersToRender) {
+                DrawPlayer(playerEntity.X, playerEntity.Y, playerEntity.RenderIdentifier, playerEntity.IsOnField, e);
             }
+
+            foreach (var worldMarkerEntity in worldMarkersToRender) {
+                DrawWorldMarker(worldMarkerEntity.X, worldMarkerEntity.Y, worldMarkerEntity.RenderIdentifier, worldMarkerEntity.IsOnField, e);
+            }
+
         }
 
-        private void DrawPlayer(float x, float y, bool onField, PaintEventArgs e) {
+        private void DrawPlayer(float x, float y, string playerClass, bool onField, PaintEventArgs e) {
             if (!onField) return;
 
             var path = new System.Drawing.Drawing2D.GraphicsPath();
             float x1 = ((x + 2520) / (-2440 + 2520))*800;
             float y1 = ((2460 - y) / (2460 - 2380))*800;
             path.AddEllipse(x1, y1, 10, 10);
-            var region = new System.Drawing.Region(path);
+            var region = new Region(path);
             var graphics = e.Graphics;
-            graphics.FillRegion(Brushes.Red, region);
+            // change colour with class colour
+            var c = GetRGBFromPlayerClass(playerClass);
+            var brush = new SolidBrush(Color.FromArgb(255, c.R, c.G, c.B));
+            graphics.FillRegion(brush, region);
+
+        }
+
+        private (int R, int G, int B) GetRGBFromPlayerClass(string playerClass) {
+            switch (playerClass) {
+                case "Death Knight":
+                    return (196, 30, 58);
+                case "Demon Hunter":
+                    return (163, 48, 201);
+                case "Druid":
+                    return (255, 124, 10);
+                case "Evoker":
+                    return (51, 147, 127);
+                case "Hunter":
+                    return (170, 211, 114);
+                case "Mage":
+                    return (63, 199, 234);
+                case "Monk":
+                    return (0, 255, 152);
+                case "Paladin":
+                    return (244, 140, 186);
+                case "Priest":
+                    return (255, 255, 255);
+                case "Rogue":
+                    return (255, 244, 104);
+                case "Shaman":
+                    return (0, 112, 221);
+                case "Warlock":
+                    return (135, 136, 238);
+                case "Warrior":
+                    return (198, 155, 109);
+                default:
+                    throw new Exception($"unhandled class {playerClass}");
+            }
+        }
+
+        private void DrawWorldMarker(float x, float y, string markerIdentifier, bool onField, PaintEventArgs e) {
+            if (!onField) return;
+
+            // todo: change with icons
+            var path = new System.Drawing.Drawing2D.GraphicsPath();
+            float x1 = ((x + 2520) / (-2440 + 2520)) * 800;
+            float y1 = ((2460 - y) / (2460 - 2380)) * 800;
+            path.AddEllipse(x1, y1, 10, 10);
+            var region = new Region(path);
+            var graphics = e.Graphics;
+            graphics.FillRegion(Brushes.White, region);
 
         }
 
@@ -54,8 +109,8 @@ namespace Rendering
 
         private async void RunHookAsync() {
             await Task.Run(() => {
-                //LogHook.LogHook.ReadFile("C:\\Users\\Shamzaa\\scripts\\WowLiveLogRadar\\CombatLogEmulator\\outtest.txt");
-                LogHook.LogHook.ReadFile("C:\\Program Files (x86)\\World of Warcraft\\_retail_\\Logs\\WoWCombatLog-081523_222432.txt");
+                LogHook.LogHook.ReadFile("C:\\Users\\Shamzaa\\scripts\\WowLiveLogRadar\\CombatLogEmulator\\outtest.txt");
+                //LogHook.LogHook.ReadFile("C:\\Program Files (x86)\\World of Warcraft\\_retail_\\Logs\\WoWCombatLog-081523_222432.txt");
             });
         }
 

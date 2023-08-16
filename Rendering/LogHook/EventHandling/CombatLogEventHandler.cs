@@ -18,6 +18,21 @@ namespace LogHook.EventHandling
             {
                 "SPELL_CAST_SUCCESS", new SpellCastSuccessHandler()
             }
+            
+                        // todo: features I wanna make for fun
+                        // more events for positions
+                        // class colours
+                        // current player highlight
+                        // indicator debuffs
+                        // drop debuff location
+                        // attach line between player and a marker during debuff
+                        // laser from boss when he does breath
+                        // arrow showing to go to a marker with debuff
+
+                        // wont care for now:
+                        // deaths
+                        // wipes? should just start over on next attempt
+                        // making stuff generic. It's just a POC to get my point across. Hardcode IDs for days babyyyy
         };
 
         public void Handle(string eventType, string[] args) {

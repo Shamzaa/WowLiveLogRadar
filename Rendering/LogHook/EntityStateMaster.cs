@@ -9,7 +9,8 @@ namespace LogHook
     // will keep track of all entities to render
     public class EntityStateMaster
     {
-        private Dictionary<string, Entity> EntitiesToRender = new Dictionary<string, Entity>();
+        private Dictionary<string, Entity> PlayersToRender = new Dictionary<string, Entity>();
+        private Dictionary<string, Entity> WorldMarkersToRender = new Dictionary<string, Entity>();
 
         public static EntityStateMaster Instance { get { return Nested.instance; } }
 
@@ -25,42 +26,58 @@ namespace LogHook
 
         private EntityStateMaster() { }
 
-        public void InitiateEntity(string id, char renderCharacter, bool isOnField = true) {
-            EntitiesToRender.Add(id, new Entity() {
+        public void InitiatePlayer(string id, string playerClass, bool isOnField = true) {
+            PlayersToRender.Add(id, new Entity() {
                 Id = id,
-                RenderCharacter = renderCharacter,
+                RenderIdentifier = playerClass,
                 IsOnField = isOnField
             });
         }
 
-        public void SetEntityPosition(string id, float x, float y, bool isOnField = true) {
-            if (EntitiesToRender.ContainsKey(id)) {
-                var entity = EntitiesToRender[id];
+        public void SetPlayerPosition(string id, float x, float y, bool isOnField = true) {
+            if (PlayersToRender.ContainsKey(id)) {
+                var entity = PlayersToRender[id];
                 entity.X = x;
                 entity.Y = y;
                 entity.IsOnField = isOnField;
             }
         }
 
+        public void PlaceWorldMarker(string id, string markerName, float x, float y, bool isOnField = true) {
+            WorldMarkersToRender[id] = new Entity() {
+                Id = id,
+                X = x,
+                Y = y,
+                RenderIdentifier=markerName,
+                IsOnField=isOnField
+            };
+        }
+
         public string DebugEntityPositions() {
             var sb = new StringBuilder();
-            foreach (var entity in EntitiesToRender) {
+            foreach (var entity in PlayersToRender) {
                 sb.Append($"entity: {entity.Key}, X: {entity.Value.X}, Y: {entity.Value.Y} \n");
             }
 
             return sb.ToString();
         }
 
-        public List<Entity> GetEntitiesToRender() {
-            return EntitiesToRender.Values.ToList();
+        public List<Entity> GetPlayersToRender() {
+            return PlayersToRender.Values.ToList();
         }
+
+        public List<Entity> GetWorldMarkersToRender() {
+            return WorldMarkersToRender.Values.ToList();
+        }
+
+
     }
 
     public class Entity {
         public string Id { get; set; }
         public float X { get; set; }
         public float Y { get; set; }
-        public char RenderCharacter { get; set; }
+        public string RenderIdentifier { get; set; }
         public bool IsOnField { get; set; }
     }
 

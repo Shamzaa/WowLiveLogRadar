@@ -45,6 +45,8 @@ namespace LogHook
                         if (!IsStartOfCombatLogEvent(lines[0])) {
                             lines[0] = lastLine + lines[0];
                         }
+                        // TODO: if it's not a broken line, we need to include that lastline, otherwise it gets skipped
+
 
                         lastLine = lines.Last();
                         lines = lines.Take(lines.Count() - 1).ToArray();

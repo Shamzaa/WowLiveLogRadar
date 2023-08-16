@@ -18,7 +18,7 @@ namespace LogHook.EventHandling
             float x = -float.Parse(args[25], CultureInfo.InvariantCulture);
             float y = float.Parse(args[24], CultureInfo.InvariantCulture);
 
-            EntityStateMaster.Instance.SetEntityPosition(args[1], x, y);
+            EntityStateMaster.Instance.SetPlayerPosition(args[1], x, y);
         }
     }
 }
