@@ -44,6 +44,8 @@ namespace Rendering.LogHook
                         var lines = Regex.Split(s, "[\r\n]+").Where(l => !string.IsNullOrEmpty(l)).ToArray();
                         if (!IsStartOfCombatLogEvent(lines[0])) {
                             lines[0] = lastLine + lines[0];
+                        } else if (!string.IsNullOrEmpty(lastLine)){
+                            lines.Prepend(lastLine);
                         }
                         // TODO: if it's not a broken line, we need to include that lastline, otherwise it gets skipped
 

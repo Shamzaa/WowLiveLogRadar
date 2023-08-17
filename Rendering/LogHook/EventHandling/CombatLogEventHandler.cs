@@ -41,6 +41,12 @@ namespace Rendering.LogHook.EventHandling
             // to check when boss does breaht
             {
                 "SPELL_CAST_START", new SpellCastStartHandler()
+            },
+            {
+                "ENCOUNTER_START", new EncounterStartHandler()
+            },
+            {
+                "ENCOUNTER_END", new EncounterEndHandler()
             }
 
 
@@ -57,7 +63,13 @@ namespace Rendering.LogHook.EventHandling
         };
 
         public void Handle(string eventType, string[] args) {
-            if(!Handlers.ContainsKey(eventType)) {
+            var state = EntityStateMaster.Instance;
+
+            if(!state.IsInCombat && !(eventType == "ENCOUNTER_START" || eventType == "WORLD_MARKER_PLACED")) {
+                return;
+            }
+
+            if (!Handlers.ContainsKey(eventType)) {
                 return;
             }
 

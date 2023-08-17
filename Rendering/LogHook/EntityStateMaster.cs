@@ -9,11 +9,14 @@ namespace Rendering.LogHook
     // will keep track of all entities to render
     public class EntityStateMaster
     {
+        public bool IsInCombat { get; set; } = false;
+
         private Dictionary<string, Entity> PlayersToRender = new Dictionary<string, Entity>();
         private Dictionary<string, Entity> CreaturesToRender = new Dictionary<string, Entity>();
         private Dictionary<string, Entity> WorldMarkersToRender = new Dictionary<string, Entity>();
         private List<Entity> DebuffDropLocationsToRender = new List<Entity>();
         private Dictionary<string, BeamEntity> BeamsOriginatingFromCreatures = new Dictionary<string, BeamEntity>();
+        private string MainCharacterName;
 
         public static EntityStateMaster Instance { get { return Nested.instance; } }
 
@@ -28,6 +31,26 @@ namespace Rendering.LogHook
         }
 
         private EntityStateMaster() { }
+
+        public void SetMainCharacter(string mainCharacterName) {
+            MainCharacterName = mainCharacterName;
+        }
+
+        public void ClearState() {
+            PlayersToRender.Clear();
+            CreaturesToRender.Clear();
+            DebuffDropLocationsToRender.Clear();
+            BeamsOriginatingFromCreatures.Clear();
+        }
+
+        public void SetNameOnPlayer(string id, string name) {
+            var player = PlayersToRender[id];
+            player.name = name;
+            if(player.name.Contains(MainCharacterName)) {
+                player.RenderIdentifier = "Main";
+            }
+
+        }
 
         public void InitiatePlayer(string id, string playerClass, bool isOnField = true) {
             PlayersToRender.Add(id, new Entity() {
@@ -151,6 +174,7 @@ namespace Rendering.LogHook
         public float Y { get; set; }
         public float Rotation { get; set; }
         public string RenderIdentifier { get; set; }
+        public string name { get; set; }
         public bool IsOnField { get; set; } = false;
         public bool IsHighlighted { get; set; } = false;
         public (int R, int G, int B) HighlightColour { get; set; }

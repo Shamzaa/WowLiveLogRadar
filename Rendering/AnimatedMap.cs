@@ -17,6 +17,7 @@ namespace Rendering
             tmr.Interval = 100;
             tmr.Tick += new EventHandler(tmr_Tick);
             tmr.Start();
+            LogHook.EntityStateMaster.Instance.SetMainCharacter("Realshamzaa");
             // doubt this is how you're supposed to do it but xdd
             StartHook();
         }
@@ -106,14 +107,20 @@ namespace Rendering
                 var highlightBrush = new SolidBrush(Color.FromArgb(180, h.R, h.G, h.B));
                 graphics.FillRegion(highlightBrush, highLightRegion);
             }
+            if (player.RenderIdentifier == "Main") {
+                var playerImage = Properties.Resources.boss;
+                //playerImage.RotateFlip()
+                graphics.DrawImage(playerImage, x1 - 15, y1 - 15, 30, 30);
+            } else {
+                var path = new System.Drawing.Drawing2D.GraphicsPath();
+                path.AddEllipse(x1 - 10, y1 - 10, 20, 20);
+                var region = new Region(path);
+                // change colour with class colour
+                var c = GetRGBFromPlayerClass(player.RenderIdentifier);
+                var brush = new SolidBrush(Color.FromArgb(255, c.R, c.G, c.B));
+                graphics.FillRegion(brush, region);
+            }
 
-            var path = new System.Drawing.Drawing2D.GraphicsPath();
-            path.AddEllipse(x1-10, y1-10, 20, 20);
-            var region = new Region(path);
-            // change colour with class colour
-            var c = GetRGBFromPlayerClass(player.RenderIdentifier);
-            var brush = new SolidBrush(Color.FromArgb(255, c.R, c.G, c.B));
-            graphics.FillRegion(brush, region);
 
         }
 
@@ -208,7 +215,7 @@ namespace Rendering
         private async void RunHookAsync() {
             await Task.Run(() => {
                 LogHook.LogHook.ReadFile("C:\\Users\\Shamzaa\\scripts\\WowLiveLogRadar\\CombatLogEmulator\\outtest.txt");
-                //LogHook.LogHook.ReadFile("C:\\Program Files (x86)\\World of Warcraft\\_retail_\\Logs\\WoWCombatLog-081523_222432.txt");
+                //LogHook.LogHook.ReadFile("C:\\Program Files (x86)\\World of Warcraft\\_retail_\\Logs\\WoWCombatLog-081723_224538.txt");
             });
         }
 

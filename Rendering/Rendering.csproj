@@ -55,6 +55,8 @@
     <Compile Include="LogHook\EntityStateMaster.cs" />
     <Compile Include="LogHook\EventHandling\CombatantInfoHandler.cs" />
     <Compile Include="LogHook\EventHandling\CombatLogEventHandler.cs" />
+    <Compile Include="LogHook\EventHandling\EncounterEndHandler.cs" />
+    <Compile Include="LogHook\EventHandling\EncounterStartHandler.cs" />
     <Compile Include="LogHook\EventHandling\EventHandler.cs" />
     <Compile Include="LogHook\EventHandling\SpellAuraAppliedHandler.cs" />
     <Compile Include="LogHook\EventHandling\SpellAuraRemovedHandler.cs" />

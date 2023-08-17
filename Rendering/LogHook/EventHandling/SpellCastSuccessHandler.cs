@@ -12,6 +12,7 @@ namespace Rendering.LogHook.EventHandling
         public void Handle(string[] args) {
             // 0 - eventType
             // 1 - source id
+            // 2 - source name
             // 9 - spell id
             // if we're considering x,y grid with 0,0 in the bottom left corner
             // 24 Y
@@ -20,7 +21,9 @@ namespace Rendering.LogHook.EventHandling
                 float x = -float.Parse(args[25], CultureInfo.InvariantCulture);
                 float y = float.Parse(args[24], CultureInfo.InvariantCulture);
 
-                EntityStateMaster.Instance.SetPlayerPosition(args[1], x, y);
+                var instance = EntityStateMaster.Instance;
+                instance.SetPlayerPosition(args[1], x, y);
+                instance.SetNameOnPlayer(args[1], args[2].Split('-')[0]);
             }
 
 
