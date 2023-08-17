@@ -66,7 +66,7 @@ namespace Rendering
             if (indicator.IsHighlighted) {
 
                 var highLightPath = new System.Drawing.Drawing2D.GraphicsPath();
-                highLightPath.AddEllipse(x1 - 10, y1 - 10, 40, 40);
+                highLightPath.AddEllipse(x1 - 20, y1 - 20, 40, 40);
                 var highLightRegion = new Region(highLightPath);
 
                 var h = indicator.HighlightColour;
@@ -99,7 +99,7 @@ namespace Rendering
             if(player.IsHighlighted) {
 
                 var highLightPath= new System.Drawing.Drawing2D.GraphicsPath();
-                highLightPath.AddEllipse(x1 - 10, y1 - 10, 40, 40);
+                highLightPath.AddEllipse(x1 - 20, y1 - 20, 40, 40);
                 var highLightRegion = new Region(highLightPath);
 
                 var h = player.HighlightColour;
@@ -108,7 +108,7 @@ namespace Rendering
             }
 
             var path = new System.Drawing.Drawing2D.GraphicsPath();
-            path.AddEllipse(x1, y1, 20, 20);
+            path.AddEllipse(x1-10, y1-10, 20, 20);
             var region = new Region(path);
             // change colour with class colour
             var c = GetRGBFromPlayerClass(player.RenderIdentifier);
@@ -161,7 +161,7 @@ namespace Rendering
             //var region = new Region(path);
             var graphics = e.Graphics;
             var image = GetImageFromWorldMarkerName(markerIdentifier);
-            graphics.DrawImage(image, x1, y1, 30, 30);
+            graphics.DrawImage(image, x1-15, y1-15, 30, 30);
             //graphics.FillRegion(Brushes.White, region);
 
         }
@@ -191,13 +191,14 @@ namespace Rendering
         private void DrawLineFromEntityInFacingDirection(LogHook.Entity entity, LogHook.BeamEntity beam, PaintEventArgs e) {
             float x1 = ((entity.X + 2520) / (-2440 + 2520)) * 800;
             float y1 = ((2460 - entity.Y) / (2460 - 2380)) * 800;
-            float x2 = x1 - beam.Length * (float)Math.Cos(entity.Rotation * (180 / Math.PI));
-            float y2 = y1 + beam.Length * (float)Math.Sin(entity.Rotation * (180 / Math.PI));
+            float x2 = x1 + beam.Length * (float)Math.Cos(entity.Rotation);
+            float y2 = y1 - beam.Length * (float)Math.Sin(entity.Rotation);
 
             var c = beam.Colour;
-            var pen = new Pen(Color.FromArgb(255, c.R, c.G, c.B), beam.Width);
+            var width = beam.Width;
+            var pen = new Pen(Color.FromArgb(255, c.R, c.G, c.B), width);
             var graphics = e.Graphics;
-            graphics.DrawLine(pen, x1, y1, x2, y2);
+            graphics.DrawLine(pen, x1-width/2, y1-width/2, x2-width/2, y2-width/2);
         }
 
         private void StartHook() {

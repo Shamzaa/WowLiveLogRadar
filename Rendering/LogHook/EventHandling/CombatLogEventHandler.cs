@@ -23,7 +23,7 @@ namespace Rendering.LogHook.EventHandling
             {
                 "SPELL_AURA_REMOVED", new SpellAuraRemovedHandler()
             },
-            // events with source position
+            // events with source position, as well as breath finish methink
             {
                 "SPELL_CAST_SUCCESS", new SpellCastSuccessHandler()
             },

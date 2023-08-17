@@ -54,7 +54,8 @@ namespace Rendering.LogHook
             var entity = CreaturesToRender[id];
             entity.X = x;
             entity.Y = y;
-            entity.Rotation = rotation;
+            // 0 rad is north from the logs, rotate half a rad clockwise and it will match our grid
+            entity.Rotation = rotation + (float)(0.5*Math.PI);
             entity.IsOnField = isOnField;
         }
 
