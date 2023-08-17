@@ -59,6 +59,7 @@
     <Compile Include="LogHook\EventHandling\SpellAuraAppliedHandler.cs" />
     <Compile Include="LogHook\EventHandling\SpellAuraRemovedHandler.cs" />
     <Compile Include="LogHook\EventHandling\SpellCastSuccessHandler.cs" />
+    <Compile Include="LogHook\EventHandling\SpellHealHandler.cs" />
     <Compile Include="LogHook\EventHandling\WorldMarkerPlacedHandler.cs" />
     <Compile Include="LogHook\LogHook.cs" />
     <Compile Include="Program.cs" />

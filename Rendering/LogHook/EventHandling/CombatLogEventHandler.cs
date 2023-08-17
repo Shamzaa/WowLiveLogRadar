@@ -16,17 +16,27 @@ namespace Rendering.LogHook.EventHandling
                 "COMBATANT_INFO", new CombatantInfoHandler()
             },
             {
-                "SPELL_CAST_SUCCESS", new SpellCastSuccessHandler()
-            },
-            {
                 "SPELL_AURA_APPLIED", new SpellAuraAppliedHandler()
             },
             {
                 "SPELL_AURA_REMOVED", new SpellAuraRemovedHandler()
+            },
+            // events with source position
+            {
+                "SPELL_CAST_SUCCESS", new SpellCastSuccessHandler()
+            },
+            // events with target position
+            {
+                "SPELL_HEAL", new SpellHealHandler()
+            },
+            {
+                "SPELL_PERIODIC_HEAL", new SpellHealHandler() // since handling is identical
             }
+
+
             
                         // todo: features I wanna make for fun
-                        // more events for positions
+                        // events for boss position
                         // current player highlight
                         // attach line between player and a marker during debuff
                         // laser from boss when he does breath
