@@ -30,9 +30,9 @@
             // 
             // debugWindow
             // 
-            this.debugWindow.Location = new System.Drawing.Point(1185, 320);
+            this.debugWindow.Location = new System.Drawing.Point(1030, 12);
             this.debugWindow.Name = "debugWindow";
-            this.debugWindow.Size = new System.Drawing.Size(271, 372);
+            this.debugWindow.Size = new System.Drawing.Size(426, 847);
             this.debugWindow.TabIndex = 0;
             this.debugWindow.Text = "";
             // 
@@ -43,6 +43,7 @@
             this.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.ClientSize = new System.Drawing.Size(1468, 861);
             this.Controls.Add(this.debugWindow);
+            this.DoubleBuffered = true;
             this.Name = "AnimatedMap";
             this.Text = "AnimatedMap";
             this.Load += new System.EventHandler(this.LoadEvent);

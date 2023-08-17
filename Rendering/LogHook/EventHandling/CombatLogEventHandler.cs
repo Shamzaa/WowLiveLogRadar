@@ -12,9 +12,11 @@ namespace Rendering.LogHook.EventHandling
             {
                 "WORLD_MARKER_PLACED", new WorldMarkerPlacedHandler()
             },
+            // init players when fight starts
             {
                 "COMBATANT_INFO", new CombatantInfoHandler()
             },
+            // handling debuffs/buff events
             {
                 "SPELL_AURA_APPLIED", new SpellAuraAppliedHandler()
             },
@@ -31,15 +33,21 @@ namespace Rendering.LogHook.EventHandling
             },
             {
                 "SPELL_PERIODIC_HEAL", new SpellHealHandler() // since handling is identical
+            },
+            // events that can contain non player positions
+            {
+                "SPELL_DAMAGE", new SpellDamageHandler()
+            },
+            // to check when boss does breaht
+            {
+                "SPELL_CAST_START", new SpellCastStartHandler()
             }
 
 
             
                         // todo: features I wanna make for fun
-                        // events for boss position
                         // current player highlight
                         // attach line between player and a marker during debuff
-                        // laser from boss when he does breath
                         // arrow showing to go to a marker with debuff
 
                         // wont care for now:

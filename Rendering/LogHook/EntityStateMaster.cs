@@ -10,8 +10,10 @@ namespace Rendering.LogHook
     public class EntityStateMaster
     {
         private Dictionary<string, Entity> PlayersToRender = new Dictionary<string, Entity>();
+        private Dictionary<string, Entity> CreaturesToRender = new Dictionary<string, Entity>();
         private Dictionary<string, Entity> WorldMarkersToRender = new Dictionary<string, Entity>();
         private List<Entity> DebuffDropLocationsToRender = new List<Entity>();
+        private Dictionary<string, BeamEntity> BeamsOriginatingFromCreatures = new Dictionary<string, BeamEntity>();
 
         public static EntityStateMaster Instance { get { return Nested.instance; } }
 
@@ -42,6 +44,18 @@ namespace Rendering.LogHook
                 entity.Y = y;
                 entity.IsOnField = isOnField;
             }
+        }
+
+        public void SetCreaturePosition(string id, float x, float y, float rotation, bool isOnField = true) {
+            if (!CreaturesToRender.ContainsKey(id)) {
+                CreaturesToRender[id] = new Entity() { Id = id };
+            }
+
+            var entity = CreaturesToRender[id];
+            entity.X = x;
+            entity.Y = y;
+            entity.Rotation = rotation;
+            entity.IsOnField = isOnField;
         }
 
         public void PlaceWorldMarker(string id, string markerName, float x, float y, bool isOnField = true) {
@@ -77,11 +91,30 @@ namespace Rendering.LogHook
             });
         }
 
+        public void AddBeamOriginatingFromCreature(string effectId, string creatureId, float width, float length, (int R, int G, int B) colour) {
+            BeamsOriginatingFromCreatures.Add(effectId, new BeamEntity {
+                EffectId = effectId,
+                OriginatingFromEntityId = creatureId,
+                Width = width,
+                Length = length,
+                Colour = colour
+            });
+        }
+
+        public void RemoveBeamOriginatingFromCreature(string effectId) {
+            BeamsOriginatingFromCreatures.Remove(effectId);
+        }
+
         public string DebugEntityPositions() {
             var sb = new StringBuilder();
             foreach (var entity in PlayersToRender) {
-                sb.Append($"entity: {entity.Key}, X: {entity.Value.X}, Y: {entity.Value.Y} \n");
+                sb.Append($"entity: {entity.Key}, X: {entity.Value.X}, Y: {entity.Value.Y} , rotation: {entity.Value.Rotation}\n");
             }
+
+            foreach (var entity in CreaturesToRender) {
+                sb.Append($"entity: {entity.Key}, X: {entity.Value.X}, Y: {entity.Value.Y} , rotation: {entity.Value.Rotation}\n");
+            }
+
 
             return sb.ToString();
         }
@@ -95,7 +128,17 @@ namespace Rendering.LogHook
         }
 
         public List<Entity> GetIndicatorsToRender() {
-            return DebuffDropLocationsToRender;
+            return DebuffDropLocationsToRender.ToList();
+        }
+
+        public List<Entity> GetCreaturesToRender() {
+            return CreaturesToRender.Values.ToList();
+        }
+
+        public List<(Entity entity, BeamEntity beam)> GetBeamsFromCreaturesToRender() {
+            return BeamsOriginatingFromCreatures.Values
+                .Select(b => (CreaturesToRender[b.OriginatingFromEntityId], b))
+                .ToList();
         }
 
 
@@ -105,10 +148,20 @@ namespace Rendering.LogHook
         public string Id { get; set; }
         public float X { get; set; }
         public float Y { get; set; }
+        public float Rotation { get; set; }
         public string RenderIdentifier { get; set; }
         public bool IsOnField { get; set; } = false;
         public bool IsHighlighted { get; set; } = false;
         public (int R, int G, int B) HighlightColour { get; set; }
+    }
+
+    public class BeamEntity
+    {
+        public string EffectId { get; set; }
+        public string OriginatingFromEntityId { get; set; }
+        public float Width { get; set; }
+        public float Length { get; set; }
+        public (int R, int G, int B) Colour { get; set; }
     }
 
     public class ListEntity

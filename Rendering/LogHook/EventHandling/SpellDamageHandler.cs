@@ -7,28 +7,23 @@ using System.Threading.Tasks;
 
 namespace Rendering.LogHook.EventHandling
 {
-    public class SpellCastSuccessHandler : EventHandler
+    public class SpellDamageHandler : EventHandler
     {
         public void Handle(string[] args) {
             // 0 - eventType
             // 1 - source id
-            // 9 - spell id
+            // 5 - target id
+            // 6 - target name
             // if we're considering x,y grid with 0,0 in the bottom left corner
-            // 24 Y
-            // 25 -X
-            if (args[1].StartsWith("Player-")) {
+            // 24 Y target
+            // 25 -X target
+            // 27 - rotation
+
+            if (args[6] == "\"Kazzara, the Hellforged\"") {
                 float x = -float.Parse(args[25], CultureInfo.InvariantCulture);
                 float y = float.Parse(args[24], CultureInfo.InvariantCulture);
-
-                EntityStateMaster.Instance.SetPlayerPosition(args[1], x, y);
-            }
-
-
-            var spellId = int.Parse(args[9], CultureInfo.InvariantCulture);
-            // todo: end beam from boss if it's breath
-            // breath spell
-            if (spellId == 400430) {
-                EntityStateMaster.Instance.RemoveBeamOriginatingFromCreature(spellId.ToString());
+                float rotation = float.Parse(args[27], CultureInfo.InvariantCulture);
+                EntityStateMaster.Instance.SetCreaturePosition(args[5], x, y, rotation);
             }
 
         }

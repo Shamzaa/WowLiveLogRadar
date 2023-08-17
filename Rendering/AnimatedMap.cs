@@ -21,6 +21,7 @@ namespace Rendering
             StartHook();
         }
         private void tmr_Tick(object sender, EventArgs e) {
+            // todo: calculate new positions for lasers
             var debug = LogHook.EntityStateMaster.Instance.DebugEntityPositions();
             debugWindow.Text = debug;
             this.Invalidate();
@@ -30,6 +31,16 @@ namespace Rendering
             var playersToRender = state.GetPlayersToRender();
             var worldMarkersToRender = state.GetWorldMarkersToRender();
             var debuffDropLocationsToRender = state.GetIndicatorsToRender();
+            var creaturesToRender = state.GetCreaturesToRender();
+            var linesFromCreaturesToDraw = state.GetBeamsFromCreaturesToRender();
+
+            foreach (var lineFromCreature in linesFromCreaturesToDraw) {
+                DrawLineFromEntityInFacingDirection(lineFromCreature.entity, lineFromCreature.beam, e);
+            }
+
+            foreach (var creature in creaturesToRender) {
+                DrawCreature(creature, e);
+            }
 
             foreach (var indicatorEntity in debuffDropLocationsToRender) {
                 DrawIndicator(indicatorEntity, e);
@@ -62,6 +73,18 @@ namespace Rendering
                 var highlightBrush = new SolidBrush(Color.FromArgb(180, h.R, h.G, h.B));
                 graphics.FillRegion(highlightBrush, highLightRegion);
             }
+
+        }
+
+        private void DrawCreature(LogHook.Entity creature, PaintEventArgs e) {
+            if (!creature.IsOnField) return;
+
+            float x1 = ((creature.X + 2520) / (-2440 + 2520)) * 800;
+            float y1 = ((2460 - creature.Y) / (2460 - 2380)) * 800;
+
+            var graphics = e.Graphics;
+            var image = Properties.Resources.boss;
+            graphics.DrawImage(image, x1 - 25, y1 - 25, 50, 50);
 
         }
 
@@ -164,6 +187,17 @@ namespace Rendering
                 default:
                     throw new Exception($"unknown marker name {worldMarkerName}");
             }
+        }
+        private void DrawLineFromEntityInFacingDirection(LogHook.Entity entity, LogHook.BeamEntity beam, PaintEventArgs e) {
+            float x1 = ((entity.X + 2520) / (-2440 + 2520)) * 800;
+            float y1 = ((2460 - entity.Y) / (2460 - 2380)) * 800;
+            float x2 = x1 - beam.Length * (float)Math.Cos(entity.Rotation * (180 / Math.PI));
+            float y2 = y1 + beam.Length * (float)Math.Sin(entity.Rotation * (180 / Math.PI));
+
+            var c = beam.Colour;
+            var pen = new Pen(Color.FromArgb(255, c.R, c.G, c.B), beam.Width);
+            var graphics = e.Graphics;
+            graphics.DrawLine(pen, x1, y1, x2, y2);
         }
 
         private void StartHook() {

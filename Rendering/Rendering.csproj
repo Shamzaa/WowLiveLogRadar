@@ -58,7 +58,9 @@
     <Compile Include="LogHook\EventHandling\EventHandler.cs" />
     <Compile Include="LogHook\EventHandling\SpellAuraAppliedHandler.cs" />
     <Compile Include="LogHook\EventHandling\SpellAuraRemovedHandler.cs" />
+    <Compile Include="LogHook\EventHandling\SpellCastStartHandler.cs" />
     <Compile Include="LogHook\EventHandling\SpellCastSuccessHandler.cs" />
+    <Compile Include="LogHook\EventHandling\SpellDamageHandler.cs" />
     <Compile Include="LogHook\EventHandling\SpellHealHandler.cs" />
     <Compile Include="LogHook\EventHandling\WorldMarkerPlacedHandler.cs" />
     <Compile Include="LogHook\LogHook.cs" />
@@ -90,7 +92,9 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="Graphics\boss.png" />
+  </ItemGroup>
   <ItemGroup>
     <None Include="Graphics\WorldMarkers\blue.png" />
   </ItemGroup>
